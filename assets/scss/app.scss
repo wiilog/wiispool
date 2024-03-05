@@ -1,0 +1,62 @@
+@import "node_modules/bootstrap/scss/bootstrap";
+
+@import "variables";
+@import "modal";
+@import "flash";
+
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: url("../../assets/img/wave.svg") no-repeat bottom;
+}
+
+.home-button {
+    background-color: $primary;
+    color: $white;
+    border: 2px solid $primary;
+    border-radius: 38px;
+    box-shadow: 0 3px 10px $primary;
+    font-weight: bold;
+    margin-left: 3px;
+    margin-right: 3px;
+    min-width: 200px;
+    height: 60px;
+    font-size: 20px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.manage-settings {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+
+    img {
+        width: 50px;
+        height: 50px;
+        margin: 20px;
+        cursor: pointer;
+    }
+}
+
+.wii-field-name {
+    color: $black !important;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.prefix-container {
+    input[name=prefix] {
+        margin-right: 10px;
+    }
+
+    .delete-line {
+        background: url("../../assets/icons/trash.svg") no-repeat center;
+        background-size: 80%;
+        margin-left: 10px;
+    }
+}
