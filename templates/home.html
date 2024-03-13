@@ -1,28 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <link href="../build/css/global.css" rel="stylesheet">
+    <link href="./../public/css/app.css" rel="stylesheet">
 </head>
 <body>
-
-<button class="home-button">Activer l'impression</button>
-<div class="manage-settings">
-    <img src="../assets/icons/settings.svg">
-</div>
-
-<div class="alerts-container"></div>
-<div class="alert-wrapper d-flex">
-    <div class="alert-close">
-        <button type="button"
-                class="mr-2"
-                onclick="$(this).closest('.alert-wrapper').remove();">
-            <span aria-hidden="true">&times;</span>
-        </button>
+<div class="home">
+    <div class="d-flex flex-column align-items-center">
+        <button class="enable-printing">Démarrer</button>
+        <span>Wiispool n'est actuellement pas lancé</span>
     </div>
-    <div class="alert-content">
-        <span class="type"><strong></strong></span>
-        <span class="content"></span>
+    <div class="manage-settings">
+        <img src="../assets/icons/settings.svg">
+    </div>
+    <div class="print-history">
+        <img src="../assets/icons/printer-history.svg">
+    </div>
+
+    <div class="alerts-container"></div>
+    <div id="alert-wrapper" class="alert-wrapper d-none">
+        <div class="alert-close">
+            <button type="button"
+                    class="mr-2"
+                    onclick="$(this).closest('.alert-wrapper').remove();">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="alert-content">
+            <span class="type"><strong></strong></span>
+            <span class="content"></span>
+        </div>
     </div>
 </div>
 
@@ -30,6 +37,7 @@
 <script type="text/javascript" src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 <script>window.$ = window.jQuery = require(`jquery`);</script>
 <script type="text/javascript" src="../assets/js/flash.js"></script>
+<script type="text/javascript" src="../assets/js/print.js"></script>
 <script type="text/javascript" src="../assets/js/home.js"></script>
 </body>
 </html>

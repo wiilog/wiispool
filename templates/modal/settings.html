@@ -8,14 +8,35 @@
                 </button>
             </div>
             <div class="modal-body">
-                <div class="section-title">Dossier impression</div>
+                <div class="section-title">Impression</div>
                 <div class="section">
-                    <label class="wii-field-name w-100">Chemin vers le dossier contenant les fichiers à imprimer
-                        <input class="form-control w-100" name="directory" value="/tmp/var" type="text">
+                    <label class="wii-field-name w-100">Chemin absolu vers le dossier</label>
+                    <div class="d-flex align-items-center mb-3">
+                        <input class="form-control w-100" name="directory" type="text" disabled>
+                        <div class="choose-directory" title="Sélectionner un dossier"></div>
+                    </div>
+                    <label class="d-flex align-items-center mb-2">
+                        <input type="checkbox" class="checkbox" name="printFilesAlreadyInDirectory" checked>
+                        Imprimer les fichiers déjà présents dans le dossier
+                    </label>
+                    <label class="d-flex align-items-center">
+                        <input type="checkbox" class="checkbox" name="deleteFileAfterPrinting" checked>
+                        Supprimer le fichier après l'impression
                     </label>
                 </div>
                 <div class="section-title">Préfixes</div>
-                <div class="section prefixes-container"></div>
+                <div class="section">
+                    <div class="wii-small-text">Le nom du préfixe ne peut pas contenir le caractère underscore ("_").</div>
+                    <button class="btn btn-outline-primary add-prefix">Ajouter un préfixe</button>
+                    <div class="prefixes-container"></div>
+                </div>
+                <div class="section-title">Démarrage</div>
+                <div class="section">
+                    <label class="d-flex align-items-center">
+                        <input type="checkbox" class="checkbox" name="autoLaunch">
+                        Lancer le processus d'impression au démarrage de l'application
+                    </label>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Fermer</button>
@@ -24,11 +45,3 @@
         </div>
     </div>
 </div>
-
-<template class="prefix-container-template">
-    <div class="prefix-container d-flex justify-content-between mt-2">
-        <input type="text" class="form-control" name="prefix">
-        <select class="form-control" name="printer"></select>
-        <div class="btn delete-line d-flex align-items-center"></div>
-    </div>
-</template>

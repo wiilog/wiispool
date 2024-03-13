@@ -3,8 +3,10 @@
 @import "variables";
 @import "modal";
 @import "flash";
+@import "buttons";
+@import "form";
 
-body {
+.home {
     margin: 0;
     padding: 0;
     display: flex;
@@ -14,7 +16,7 @@ body {
     background: url("../../assets/img/wave.svg") no-repeat bottom;
 }
 
-.home-button {
+.enable-printing {
     background-color: $primary;
     color: $white;
     border: 2px solid $primary;
@@ -23,6 +25,7 @@ body {
     font-weight: bold;
     margin-left: 3px;
     margin-right: 3px;
+    margin-bottom: 10px;
     min-width: 200px;
     height: 60px;
     font-size: 20px;
@@ -40,7 +43,35 @@ body {
         height: 50px;
         margin: 20px;
         cursor: pointer;
+
+        &:hover {
+            animation: spin 0.2s linear;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(180deg);
+            }
+        }
     }
+}
+
+.print-history {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
+    img {
+        width: 50px;
+        height: 50px;
+        margin: 20px;
+        cursor: pointer;
+    }
+}
+
+.print-history-item {
+    display: flex;
+    justify-content: space-between;
 }
 
 .wii-field-name {
@@ -49,14 +80,62 @@ body {
     font-weight: 600;
 }
 
+.wii-small-text {
+    color: $dark-grey;
+    font-size: 14px;
+    font-weight: normal;
+}
+
 .prefix-container {
-    input[name=prefix] {
+    margin-top: 10px;
+
+    & > label {
         margin-right: 10px;
     }
 
     .delete-line {
         background: url("../../assets/icons/trash.svg") no-repeat center;
-        background-size: 80%;
         margin-left: 10px;
+        width: 22px;
+        height: 22px;
+        cursor: pointer;
+    }
+}
+
+.add-prefix {
+    margin-top: 10px;
+}
+
+.choose-directory {
+    background: url("../../assets/icons/directory.svg") no-repeat center;
+    margin-left: 15px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.wii-loading {
+    position: relative;
+
+    /* slightly transparent fallback */
+    .spinner-border-wrapper {
+        background-color: $black;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 4;
+    }
+}
+
+/* if backdrop support: very transparent and blurred */
+@supports ((-webkit-backdrop-filter: blur(2px)) or (backdrop-filter: blur(2px))) {
+    .wii-loading .spinner-border-wrapper {
+        backdrop-filter: blur(2px);
+        background-color: initial;
     }
 }
