@@ -1,7 +1,6 @@
 const IGNORED_FILES = /.pdf.[a-z]*/;
 const DEFAULT_PRINT_OPTIONS = {
     scale: `noscale`,
-    orientation: `landscape`,
     win32: [],
 };
 
