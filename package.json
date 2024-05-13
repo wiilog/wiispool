@@ -1,19 +1,37 @@
 {
-  "name": "wiispool_new",
+  "name": "wiispool",
   "version": "3.0.0",
   "main": "main.js",
   "license": "MIT",
+  "author": "Wiilog",
+  "description": "Wiispool - An automatic PDF file printing application.",
   "scripts": {
-    "start": "yarn sass:compile && yarn electron .",
-    "sass:compile": "node-sass assets/scss/app.scss -o build/css",
-    "package": "electron-forge package",
-    "make": "electron-forge make"
+    "start": "yarn sass:compile && yarn electron ./main.js --dev",
+    "sass:compile": "node-sass assets/scss/app.scss -o public/css",
+    "build": "yarn sass:compile && electron-builder"
   },
   "dependencies": {
+    "@electron/remote": "^2.1.2",
     "bootstrap": "^5.3.2",
-    "electron": "^28.1.0",
+    "chokidar": "^3.6.0",
+    "electron-store": "^8.2.0",
     "jquery": "^3.7.1",
     "node-sass": "^9.0.0",
     "pdf-to-printer": "^5.6.0"
+  },
+  "devDependencies": {
+    "electron": "^28.1.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.wiispool.app",
+    "win": {
+      "target": "portable",
+      "icon": "./wiilog.png"
+    },
+    "portable": {
+      "unicode": false,
+      "artifactName": "wiispool.exe"
+    }
   }
 }
