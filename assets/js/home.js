@@ -15,57 +15,26 @@ $(function () {
     }
 
     $(`.manage-settings`).on(`click`, function () {
-        $.get(`../templates/modal/settings.html`).then((template) => {
-            $(`body`).append(template);
-
-            const $modal = $(`.settings-modal`);
-
-            getPrinters().then(({printers}) => {
-                initSettingsValues($modal, printers);
-                openModal($modal);
-
-                $modal.find(`.add-prefix`).on(`click`, function () {
-                    addPrefix($modal, printers);
-                });
-
-                $modal.find(`.choose-directory`).on(`click`, async function () {
-                    await getChoosenDirectory().then((path) => {
-                        const cleanedPath = path.replace(`//`, `/`);
-                        $modal.find(`[name=directory]`).val(cleanedPath);
-                    });
-                });
-
-                $modal.on(`keydown`, `[name=prefix]`, function (event) {
-                   if(NOT_ALLOWED_KEYS.includes(event.key)) {
-                       event.preventDefault();
-                   }
-                });
-
-                $modal.on(`click`, `.delete-line`, function () {
-                    $(this).closest(`.prefix-container`).remove();
-                });
-
-                $modal.find(`[type=submit]`).on(`click`, () => {
-                    saveSettings($modal);
-                });
-            });
+        const modal = new Modal({
+            path: `settings.html`,
+            onOpen: function () {
+                onOpenSettings(this);
+            },
+            onSave: function () {
+                onSaveSettings(this);
+            },
         });
+        modal.open();     
     });
 
     $(`.print-history`).on(`click`, () => {
-        $.get(`../templates/modal/print-history.html`).then((template) => {
-            $(`body`).append(template);
-
-            const $modal = $(`.print-history-modal`);
-
-            $modal.find(`.clear-history`).on(`click`, () => {
-                clearHistory($modal);
-            });
-
-            getPrintHistory($modal);
-
-            openModal($modal);
+        const modal = new Modal({
+            path: `print-history.html`,
+            onOpen: function () {
+                onOpenPrintHistory(this);
+            },
         });
+        modal.open();
     });
 
     $enablePrinting.on(`click`, function () {
@@ -76,10 +45,6 @@ $(function () {
         } else {
             enablePrinting($button);
         }
-    });
-
-    $(document).on(`click`, `[data-dismiss=modal]`, function () {
-        closeModal($(this).closest(`.modal`));
     });
 });
 
@@ -106,15 +71,6 @@ function addPrefix($modal, printers, name = undefined, printer = undefined) {
     `);
 
     $modal.find(`.prefixes-container`).append($element[0].outerHTML);
-}
-
-function closeModal($modal) {
-    $modal.modal(`hide`);
-    $modal.remove();
-}
-
-function openModal($modal) {
-    $modal.modal(`show`);
 }
 
 function enablePrinting($button) {
@@ -156,7 +112,6 @@ function initSettingsValues($modal, printers) {
         autoLaunch,
         deleteFileAfterPrinting
     } = getSettingsValues();
-
     prefixes.forEach(({name, printer}) => addPrefix($modal, printers, name, printer));
     $modal.find(`[name=directory]`).val(directory);
     $modal.find(`[name=printFilesAlreadyInDirectory]`).prop(`checked`, printFilesAlreadyInDirectory);
@@ -208,7 +163,8 @@ async function getPrinters() {
         }));
 }
 
-function saveSettings($modal) {
+function onSaveSettings(modal) {
+    const $modal = modal.$modal;
     const $directory = $modal.find(`[name=directory`);
     const prefixes = Array.from($modal.find(`.prefix-container`))
         .map((container) => {
@@ -245,7 +201,7 @@ function saveSettings($modal) {
         disablePrinting($(`.enable-printing`));
         storage.set(`settings`, JSON.stringify(values));
 
-        closeModal($modal);
+        modal.close();
         Flash.add(Flash.SUCCESS, `Les paramètrages ont bien été enregistrés.`);
     }
 }
@@ -263,4 +219,39 @@ function clearHistory($modal) {
     getPrintHistory($modal);
 
     Flash.add(Flash.SUCCESS, `L'historique a bien été supprimé.`);
+}
+
+function onOpenSettings(modal) {
+    const $modal = modal.$modal;
+    getPrinters().then(({printers}) => {
+        initSettingsValues($modal, printers);
+        $modal.find(`.add-prefix`).on(`click`, function () {
+            addPrefix($modal, printers);
+        });
+
+        $modal.find(`.choose-directory`).on(`click`, async function () {
+            await getChoosenDirectory().then((path) => {
+                const cleanedPath = path.replace(`//`, `/`);
+                $modal.find(`[name=directory]`).val(cleanedPath);
+            });
+        });
+
+        $modal.on(`keydown`, `[name=prefix]`, function (event) {
+           if(NOT_ALLOWED_KEYS.includes(event.key)) {
+               event.preventDefault();
+           }
+        });
+
+        $modal.on(`click`, `.delete-line`, function () {
+            $(this).closest(`.prefix-container`).remove();
+        });
+    });
+}
+
+function onOpenPrintHistory(modal) {
+    modal.$modal.find(`.clear-history`).on(`click`, () => {
+        clearHistory(modal.$modal);
+    });
+
+    getPrintHistory(modal.$modal);
 }
