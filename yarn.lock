@@ -2261,10 +2261,9 @@ path-scurry@^1.11.0:
     lru-cache "^10.2.0"
     minipass "^5.0.0 || ^6.0.2 || ^7.0.0"
 
-pdf-to-printer@^5.6.0:
+"pdf-to-printer@https://github.com/wiilog/pdf-to-printer#v5.6.1":
   version "5.6.0"
-  resolved "https://registry.yarnpkg.com/pdf-to-printer/-/pdf-to-printer-5.6.0.tgz#31916ba92e834b8a112a3c96a7aa8074c3fab24d"
-  integrity sha512-yPZoLWFjbjnHoYNVLU8fyoVA5wPMmT6U4+W/ip+sTDZdt5hwcVuQSVe96rrqRB0kEaKznNcLU7BXSo42R7AHVQ==
+  resolved "https://github.com/wiilog/pdf-to-printer#b4a366edaf3cfa2f602c038e62523631b3dc5db8"
 
 pend@~1.2.0:
   version "1.2.0"
