@@ -53,3 +53,133 @@ input[type=checkbox] {
         cursor: not-allowed !important;
     }
 }
+
+$wii-switch-height: $input-height;
+
+.wii-switch-compact {
+    input, input + label {
+        padding: 0 1px;
+        font-size: 0.8rem;
+    }
+}
+
+.wii-switch-small {
+    .wii-switch {
+        width: 100%;
+    }
+
+    input, input + label {
+        padding: 0 6px !important;
+        flex: 1 1 auto;
+    }
+}
+
+.wii-switch {
+    display: inline-flex;
+    padding: 0;
+    border: 1px solid $medium-grey;
+    height: $wii-switch-height;
+    border-radius: 4px;
+    color: $black;
+    background-color: $white;
+
+    input, input + label {
+        display: flex;
+        border: none;
+        appearance: none;
+        -moz-appearance: none;
+        outline: 0;
+        padding: 0 15px;
+        border-radius: 0;
+        color: $black;
+        height: auto;
+        line-height: $wii-switch-height;
+        margin: -1px 0 0 !important;
+        font-weight: normal;
+        transition: all 200ms linear;
+        font-size: 1rem;
+
+        .wii-icon {
+            display: inline-block;
+            background-color: $black;
+            width: 15px;
+            height: 15px;
+            max-height: 15px;
+        }
+
+        .wii-icon, svg {
+            margin-right: 5px;
+        }
+    }
+
+    input + label {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    input:not([content]) {
+        display: none;
+    }
+
+    input:not(:disabled), input:not(:disabled) + label {
+        cursor: pointer;
+
+        &:hover:not(:checked) {
+            color: $white;
+            background-color: $primary;
+            opacity: 70%;
+
+            .wii-icon {
+                background: $white;
+            }
+        }
+    }
+
+    input:checked, input:checked + label {
+        background: $primary;
+        color: $white;
+
+        .wii-icon {
+            background: $white;
+        }
+    }
+
+    input:before, input + label:before {
+        content: attr(content);
+        height: $wii-switch-height;
+        line-height: $wii-switch-height;
+        text-align: center;
+        padding: 0;
+    }
+
+    input:not(:first-of-type), input:not(:first-of-type) + label {
+        border-left: 1px solid $medium-grey;
+    }
+
+    input:first-of-type, input:first-of-type + label {
+        border-bottom-left-radius: 4px;
+        border-top-left-radius: 4px;
+    }
+
+    input:last-of-type, input:last-of-type + label {
+        border-bottom-right-radius: 4px;
+        border-top-right-radius: 4px;
+    }
+
+    input:disabled {
+        cursor: not-allowed;
+
+        /* appearance for checked radiobutton */
+        &:checked + label {
+            background-color: $medium-grey;
+        }
+        & + label {
+            background-color: $light-grey;
+            color: $dark-grey;
+            .wii-icon {
+                background-color: $dark-grey;
+            }
+        }
+    }
+}

@@ -38,11 +38,11 @@ function proceedPrinting(path, options = DEFAULT_PRINT_OPTIONS) {
     const explodedPath = path.split(`\\`);
     const fileName = explodedPath[explodedPath.length - 1];
     const prefix = fileName.split(`_`)[0];
-
+    const {orientation} = JSON.parse(storage.get(`settings`));
     const printer = getPrinterByPrefix(prefix);
     if(printer) {
         options.printer = printer;
-
+        options.orientation = orientation;
         Flash.add(Flash.INFO, `Impression du fichier <strong>${fileName}</strong> en cours.`);
         pdfToPrinter.print(path, options).then(() => {
             updatePrintHistory(fileName);

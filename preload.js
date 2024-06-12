@@ -13,6 +13,7 @@ if(!store.has(`settings`)) {
         printFilesAlreadyInDirectory: true,
         autoLaunch: false,
         deleteFileAfterPrinting: true,
+        orientation: 'portrait',
     };
 
     store.set(`settings`, JSON.stringify(defaultValues));

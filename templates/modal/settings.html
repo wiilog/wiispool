@@ -23,6 +23,24 @@
                         <input type="checkbox" class="checkbox" name="deleteFileAfterPrinting" checked>
                         Supprimer le fichier après l'impression
                     </label>
+                    <label class="d-flex flex-column align-items-start w-fit-content mt-2">
+                        <label for="orientation" class="wii-field-name">Orientation</label>
+                        <div class="wii-switch text-truncate" data-name="orientation" data-title="Orientation">
+                            <input type="radio" id="portrait" name="orientation" class="data" value="portrait" required/>
+                            <label for="portrait">
+                                <span class="d-inline-flex align-items-center">
+                                    Portrait
+                                </span>
+                            </label>
+                            
+                            <input type="radio" id="landscape" name="orientation" class="data" value="landscape" required/>
+                            <label for="landscape">
+                                <span class="d-inline-flex align-items-center">
+                                    Paysage
+                                </span>
+                            </label>
+                        </div>
+                    </label>
                 </div>
                 <div class="section-title">Préfixes</div>
                 <div class="section">
