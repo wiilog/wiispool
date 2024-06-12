@@ -118,8 +118,7 @@ function initSettingsValues($modal, printers) {
     $modal.find(`[name=printFilesAlreadyInDirectory]`).prop(`checked`, printFilesAlreadyInDirectory);
     $modal.find(`[name=autoLaunch]`).prop(`checked`, autoLaunch);
     $modal.find(`[name=deleteFileAfterPrinting]`).prop(`checked`, deleteFileAfterPrinting);
-
-    $(`[name=orientation][value=${orientation}]`).prop('checked', true);
+    $modal.find(`[name=orientation][value=${orientation}]`).prop('checked', true);
 }
 
 function getSettingsValues() {
@@ -185,7 +184,7 @@ function onSaveSettings(modal) {
     const autoLaunch = $modal.find(`[name=autoLaunch]`).is(`:checked`);
     const deleteFileAfterPrinting = $modal.find(`[name=deleteFileAfterPrinting]`).is(`:checked`);
 
-    let orientation =  $(`[name=orientation]:checked`).first().val();
+    const orientation =  $(`[name=orientation]:checked`).first().val();
     const hasDuplicatedPrefixes = prefixes
         .map(({name}) => name)
         .some((name, index, names) => names.indexOf(name) !== index)
