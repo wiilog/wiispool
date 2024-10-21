@@ -2261,9 +2261,9 @@ path-scurry@^1.11.0:
     lru-cache "^10.2.0"
     minipass "^5.0.0 || ^6.0.2 || ^7.0.0"
 
-"pdf-to-printer@https://github.com/wiilog/pdf-to-printer#v5.6.1":
+pdf-to-printer@wiilog/pdf-to-printer#v5.6.1:
   version "5.6.0"
-  resolved "https://github.com/wiilog/pdf-to-printer#b4a366edaf3cfa2f602c038e62523631b3dc5db8"
+  resolved "https://codeload.github.com/wiilog/pdf-to-printer/tar.gz/b4a366edaf3cfa2f602c038e62523631b3dc5db8"
 
 pend@~1.2.0:
   version "1.2.0"
