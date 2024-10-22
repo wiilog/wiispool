@@ -14,7 +14,11 @@ $white: #FFFFFF;
 $background: #F5F5F7;
 
 $alert-colors: (
-        success: $success,
-        danger: $danger,
-        info: $info,
+    success: $success,
+    danger: $danger,
+    info: $info,
 );
+
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/mixins";

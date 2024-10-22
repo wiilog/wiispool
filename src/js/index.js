@@ -1,3 +1,9 @@
+import {Storage} from "./utils/storage";
+import {Modal} from "./utils/modal";
+import {Flash} from "./utils/flash";
+import {Printing} from "./utils/printing";
+import {dialog} from '@electron/remote';
+
 const NOT_ALLOWED_KEYS = [`_`];
 const PRINTER_HISTORY_OFFSET = 20;
 
@@ -9,14 +15,14 @@ const DISABLED_TEXT = `Wiispool n'est actuellement pas lancé`;
 $(function () {
     const $enablePrinting = $(`.enable-printing`);
 
-    const {autoLaunch} = getSettingsValues();
+    const {autoLaunch} = Storage.get(`settings`);
     if (autoLaunch) {
         enablePrinting($enablePrinting);
     }
 
     $(`.manage-settings`).on(`click`, function () {
         const modal = new Modal({
-            path: `settings.html`,
+            path: `modal-settings.html`,
             onOpen: function () {
                 onOpenSettings(this);
             },
@@ -24,12 +30,12 @@ $(function () {
                 onSaveSettings(this);
             },
         });
-        modal.open();     
+        modal.open();
     });
 
     $(`.print-history`).on(`click`, () => {
         const modal = new Modal({
-            path: `print-history.html`,
+            path: `modal-print-history.html`,
             onOpen: function () {
                 onOpenPrintHistory(this);
             },
@@ -74,7 +80,7 @@ function addPrefix($modal, printers, name = undefined, printer = undefined) {
 }
 
 function enablePrinting($button) {
-    const {directory, prefixes, printFilesAlreadyInDirectory} = getSettingsValues();
+    const {directory, prefixes, printFilesAlreadyInDirectory} = Storage.get(`settings`);
     if(!directory) {
         Flash.add(Flash.ERROR, `Vous n'avez pas paramétré de dossier pour l'impression.`);
     } else if(!prefixes || prefixes.length === 0) {
@@ -86,7 +92,7 @@ function enablePrinting($button) {
             .siblings(`span`)
             .text(ENABLED_TEXT);
 
-        Print.start(directory, printFilesAlreadyInDirectory);
+        Printing.start(directory, printFilesAlreadyInDirectory);
     }
 }
 
@@ -97,8 +103,8 @@ function disablePrinting($button) {
         .siblings(`span`)
         .text(DISABLED_TEXT);
 
-    const {directory} = getSettingsValues();
-    Print.stop(directory);
+    const {directory} = Storage.get(`settings`);
+    Printing.stop(directory);
 }
 
 function initSettingsValues($modal, printers) {
@@ -112,7 +118,7 @@ function initSettingsValues($modal, printers) {
         autoLaunch,
         deleteFileAfterPrinting,
         orientation,
-    } = getSettingsValues();
+    } = Storage.get(`settings`);
     prefixes.forEach(({name, printer}) => addPrefix($modal, printers, name, printer));
     $modal.find(`[name=directory]`).val(directory);
     $modal.find(`[name=printFilesAlreadyInDirectory]`).prop(`checked`, printFilesAlreadyInDirectory);
@@ -121,12 +127,9 @@ function initSettingsValues($modal, printers) {
     $modal.find(`[name=orientation][value=${orientation}]`).prop('checked', true);
 }
 
-function getSettingsValues() {
-    return JSON.parse(storage.get(`settings`));
-}
 
 function getPrintHistory($modal) {
-    const printHistory = JSON.parse(storage.get(`printHistory`));
+    const printHistory = Storage.get(`printHistory`);
 
     const $emptyHistory = $modal.find(`.empty-history`);
     const $printHistoryContainer = $modal.find(`.print-history-container`);
@@ -155,14 +158,6 @@ function getPrintHistory($modal) {
         $printHistoryContainer.addClass(`d-none`);
         $clearHistory.addClass(`d-none`);
     }
-}
-
-async function getPrinters() {
-    return await pdfToPrinter
-        .getPrinters()
-        .then((printers) => ({
-            printers: printers.map(({name, deviceId}) => ({name, deviceId}))
-        }));
 }
 
 function onSaveSettings(modal) {
@@ -203,23 +198,23 @@ function onSaveSettings(modal) {
         };
 
         disablePrinting($(`.enable-printing`));
-        storage.set(`settings`, JSON.stringify(values));
+        Storage.set(`settings`, values);
 
         modal.close();
         Flash.add(Flash.SUCCESS, `Les paramètrages ont bien été enregistrés.`);
     }
 }
 
-async function getChoosenDirectory() {
-    const showDialog = await remote.dialog.showOpenDialog({
-        properties: [`openDirectory`],
+async function chooseDirectory() {
+    const {filePaths} = await dialog.showOpenDialog({
+        properties: ['openDirectory']
     });
-
-    return showDialog.filePaths[0];
+    const [selected] = filePaths;
+    return selected;
 }
 
 function clearHistory($modal) {
-    storage.set(`printHistory`, `[]`);
+    Storage.set(`printHistory`, []);
     getPrintHistory($modal);
 
     Flash.add(Flash.SUCCESS, `L'historique a bien été supprimé.`);
@@ -227,29 +222,31 @@ function clearHistory($modal) {
 
 function onOpenSettings(modal) {
     const $modal = modal.$modal;
-    getPrinters().then(({printers}) => {
-        initSettingsValues($modal, printers);
-        $modal.find(`.add-prefix`).on(`click`, function () {
-            addPrefix($modal, printers);
-        });
+    Printing.printers
+        .then((printers) => {
+            initSettingsValues($modal, printers);
+            $modal.find(`.add-prefix`).on(`click`, function () {
+                addPrefix($modal, printers);
+            });
 
-        $modal.find(`.choose-directory`).on(`click`, async function () {
-            await getChoosenDirectory().then((path) => {
-                const cleanedPath = path.replace(`//`, `/`);
-                $modal.find(`[name=directory]`).val(cleanedPath);
+            $modal.find(`.choose-directory`).on(`click`, async function () {
+                const path = await chooseDirectory();
+                if (path) {
+                    const cleanedPath = path.replace(`//`, `/`);
+                    $modal.find(`[name=directory]`).val(cleanedPath);
+                }
+            });
+
+            $modal.on(`keydown`, `[name=prefix]`, function (event) {
+                if(NOT_ALLOWED_KEYS.includes(event.key)) {
+                    event.preventDefault();
+                }
+            });
+
+            $modal.on(`click`, `.delete-line`, function () {
+                $(this).closest(`.prefix-container`).remove();
             });
         });
-
-        $modal.on(`keydown`, `[name=prefix]`, function (event) {
-           if(NOT_ALLOWED_KEYS.includes(event.key)) {
-               event.preventDefault();
-           }
-        });
-
-        $modal.on(`click`, `.delete-line`, function () {
-            $(this).closest(`.prefix-container`).remove();
-        });
-    });
 }
 
 function onOpenPrintHistory(modal) {

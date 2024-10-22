@@ -42,8 +42,8 @@ input[type=checkbox] {
         display: block;
         width: 100%;
         height: 100%;
-        -webkit-mask: url('../../assets/icons/check.svg') no-repeat center;
-        mask: url('../../assets/icons/check.svg') no-repeat center;
+        -webkit-mask: url('../icons/check.svg') no-repeat center;
+        mask: url('../icons/check.svg') no-repeat center;
         background-color: $white;
     }
 

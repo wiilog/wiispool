@@ -8,7 +8,7 @@ const LABELS = {
 };
 const SPINNER_WRAPPER_CLASS = `spinner-border-wrapper`;
 
-class Flash {
+export class Flash {
     static INFO = INFO;
     static SUCCESS = SUCCESS;
     static ERROR = ERROR;
@@ -69,5 +69,3 @@ class Flash {
         }
     }
 }
-
-global.Flash = Flash;

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+    <div class="home">
+        <div class="d-flex flex-column align-items-center">
+            <button class="enable-printing">Démarrer</button>
+            <span>Wiispool n'est actuellement pas lancé</span>
+        </div>
+        <div class="manage-settings">
+            <img src="icons/settings.svg" alt="Paramètres">
+        </div>
+        <div class="print-history">
+            <img src="icons/printer-history.svg" alt="Historique">
+        </div>
+
+        <div class="alerts-container"></div>
+        <div id="alert-wrapper" class="alert-wrapper d-none">
+            <div class="alert-close">
+                <button type="button"
+                        class="mr-2 close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="alert-content">
+                <span class="type"><strong></strong></span>
+                <span class="content"></span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

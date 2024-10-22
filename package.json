@@ -1,37 +1,58 @@
 {
-  "name": "wiispool",
-  "version": "3.0.2",
-  "main": "main.js",
-  "license": "MIT",
-  "author": "Wiilog",
-  "description": "Wiispool - An automatic PDF file printing application.",
-  "scripts": {
-    "start": "yarn sass:compile && yarn electron ./main.js --dev",
-    "sass:compile": "node-sass assets/scss/app.scss -o public/css",
-    "build": "yarn sass:compile && electron-builder"
-  },
-  "dependencies": {
-    "@electron/remote": "^2.1.2",
-    "bootstrap": "^5.3.2",
-    "chokidar": "^3.6.0",
-    "electron-store": "^8.2.0",
-    "jquery": "^3.7.1",
-    "node-sass": "^9.0.0",
-    "pdf-to-printer": "wiilog/pdf-to-printer#v5.6.1"
-  },
-  "devDependencies": {
-    "electron": "^28.1.0",
-    "electron-builder": "^24.13.3"
-  },
-  "build": {
-    "appId": "com.wiispool.app",
-    "win": {
-      "target": "portable",
-      "icon": "./wiilog.png"
+    "name": "wiispool",
+    "productName": "wiispool",
+    "version": "1.0.0",
+    "description": "My Electron application description",
+    "main": ".webpack/main",
+    "scripts": {
+        "start": "electron-forge start -- --dev",
+        "package": "electron-forge package",
+        "make": "electron-forge make",
+        "publish": "electron-forge publish",
+        "lint": "echo \"No linting configured\""
     },
-    "portable": {
-      "unicode": false,
-      "artifactName": "wiispool.exe"
+    "devDependencies": {
+        "@electron-forge/cli": "^7.5.0",
+        "@electron-forge/maker-deb": "^7.5.0",
+        "@electron-forge/maker-rpm": "^7.5.0",
+        "@electron-forge/maker-squirrel": "^7.5.0",
+        "@electron-forge/maker-zip": "^7.5.0",
+        "@electron-forge/plugin-auto-unpack-natives": "^7.5.0",
+        "@electron-forge/plugin-fuses": "^7.5.0",
+        "@electron-forge/plugin-webpack": "^7.5.0",
+        "@electron/fuses": "^1.8.0",
+        "@vercel/webpack-asset-relocator-loader": "1.7.3",
+        "autoprefixer": "^10.4.20",
+        "copy-webpack-plugin": "^12.0.2",
+        "css-loader": "^7.1.2",
+        "electron": "33.0.1",
+        "node-loader": "^2.0.0",
+        "postcss-loader": "^8.1.1",
+        "resolve-url-loader": "^5.0.0",
+        "sass": "^1.80.3",
+        "sass-loader": "^16.0.2",
+        "style-loader": "^4.0.0",
+        "ts-loader": "^9.5.1",
+        "typescript": "^5.6.3",
+        "webpack": "^5.95.0"
+    },
+    "keywords": [],
+    "author": {
+        "name": "adrbounaderwiilog",
+        "email": "56256255+adrbounaderwiilog@users.noreply.github.com"
+    },
+    "license": "MIT",
+    "dependencies": {
+        "@electron/remote": "^2.1.2",
+        "@popperjs/core": "^2.11.8",
+        "bootstrap": "^5.3.3",
+        "chokidar": "^4.0.1",
+        "electron-squirrel-startup": "^1.0.1",
+        "electron-store": "^10.0.0",
+        "jquery": "^3.7.1",
+        "pdf-to-printer": "wiilog/pdf-to-printer#v5.6.1"
+    },
+    "browser": {
+        "pdf-to-printer": false
     }
-  }
 }
