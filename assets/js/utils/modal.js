@@ -1,13 +1,11 @@
-const DIRECTORY_PATH = `../templates/modal/`;
-
 class Modal {
     $modal;
-    path;
+    template;
     onOpen;
     onSave;
 
     constructor(options) {
-        this.path = options.path;
+        this.template = options.template;
         this.onOpen = options.onOpen;
         this.onSave = options.onSave;
     }
@@ -20,7 +18,7 @@ class Modal {
     }
     
     async open() {
-        const template = await $.get(DIRECTORY_PATH + this.path);
+        const template = await $.get(this.template);
         let $modal = $(template);
         this.$modal = $modal;
 

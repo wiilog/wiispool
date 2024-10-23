@@ -16,7 +16,7 @@ $(function () {
 
     $(`.manage-settings`).on(`click`, function () {
         const modal = new Modal({
-            path: `settings.html`,
+            template: `templates/modal-settings.html`,
             onOpen: function () {
                 onOpenSettings(this);
             },
@@ -29,7 +29,7 @@ $(function () {
 
     $(`.print-history`).on(`click`, () => {
         const modal = new Modal({
-            path: `print-history.html`,
+            template: `templates/modal-print-history.html`,
             onOpen: function () {
                 onOpenPrintHistory(this);
             },
