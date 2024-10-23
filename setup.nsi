@@ -52,23 +52,40 @@
   Section "-hidden app"
     SectionIn RO
     SetOutPath "$INSTDIR"
-    File /r "out\wiispool-win32-x64\*"
+    File "dist\wiispool.exe"
     WriteRegStr HKCU "Software\${NAME}" "" $INSTDIR
     WriteUninstaller "$INSTDIR\Uninstall.exe"
-  SectionEnd
 
+  SectionEnd
 
 ;--------------------------------
 ; Section - Shortcut
 
   Section "Desktop Shortcut" DeskShort
-    ; Create shortcuts in the start menu
-    CreateShortCut "$SMPROGRAMS\${NAME}.lnk" "$INSTDIR\wiispool.exe"
-    ; Create shortcuts in desktop folder
-    CreateShortCut "$DESKTOP\${NAME}.lnk" "$INSTDIR\wiispool.exe"
+
+    ; set the the use to all
+    SetShellVarContext all
+
+    ;create shortcuts
+    CreateShortCut "$INSTDIR\${NAME}.lnk" "$INSTDIR\wiispool.exe"
+    CreateShortCut "$INSTDIR\${NAME}_background.lnk" "$INSTDIR\wiispool.exe" "--toto"
+
+    ;add to start menu
+    CreateShortCut "$STARTMENU\${NAME}_background.lnk" "$INSTDIR\${NAME}_background.lnk"
+    CreateShortCut "$SMSTARTUP\${NAME}_background.lnk" "$INSTDIR\${NAME}_background.lnk"
+    CreateShortCut "$SMPROGRAMS\${NAME}_background.lnk" "$INSTDIR\${NAME}_background.lnk"
+    CreateShortCut "$DESKTOP\${NAME}_background.lnk" "$INSTDIR\${NAME}_background.lnk"
+    CreateShortCut "$STARTMENU\${NAME}.lnk" "$INSTDIR\${NAME}.lnk"
+    CreateShortCut "$SMSTARTUP\${NAME}.lnk" "$INSTDIR\${NAME}.lnk"
+    CreateShortCut "$SMPROGRAMS\${NAME}.lnk" "$INSTDIR\${NAME}.lnk"
+    CreateShortCut "$DESKTOP\${NAME}.lnk" "$INSTDIR\${NAME}.lnk"
+
+    ;add uninstaller to start menu
+    CreateShortCut "$SMPROGRAMS\Uninstall_${NAME}.lnk" "$INSTDIR\Uninstall.exe"
+    CreateShortCut "$SMSTARTUP\Uninstall_${NAME}.lnk" "$INSTDIR\Uninstall.exe"
+    CreateShortCut "$STARTMENU\Uninstall_${NAME}.lnk" "$INSTDIR\Uninstall.exe"
 
   SectionEnd
-
 
 ;--------------------------------
 ; Uninstaller
@@ -77,10 +94,22 @@
   UninstPage instfiles
 
   Section "Uninstall"
+    SetShellVarContext all
     Delete "$INSTDIR\*"
     Delete "$INSTDIR\Uninstall.exe"
     RMDir "$INSTDIR"
+    ; Delete shortcuts
+    Delete "$STARTMENU\${NAME}_background.lnk"
+    Delete "$SMSTARTUP\${NAME}_background.lnk"
+    Delete "$SMPROGRAMS\${NAME}_background.lnk"
+    Delete "$DESKTOP\${NAME}_background.lnk"
+    Delete "$STARTMENU\${NAME}.lnk"
+    Delete "$SMSTARTUP\${NAME}.lnk"
     Delete "$SMPROGRAMS\${NAME}.lnk"
     Delete "$DESKTOP\${NAME}.lnk"
+    Delete "$SMPROGRAMS\Uninstall_${NAME}.lnk"
+    Delete "$SMSTARTUP\Uninstall_${NAME}.lnk"
+    Delete "$STARTMENU\Uninstall_${NAME}.lnk"
+
     DeleteRegKey HKCU "Software\${NAME}"
   SectionEnd
