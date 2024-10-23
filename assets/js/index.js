@@ -9,8 +9,6 @@ const DISABLED_TEXT = `Wiispool n'est actuellement pas lancé`;
 $(function () {
     const $enablePrinting = $(`.enable-printing`);
 
-    $('#exeparam').html(JSON.stringify(global.arguments))
-
     const {autoLaunch} = storage.get(`settings`);
     if (autoLaunch) {
         enablePrinting($enablePrinting);
@@ -76,12 +74,10 @@ function addPrefix($modal, printers, name = undefined, printer = undefined) {
 }
 
 function enablePrinting($button) {
-    const {directory, prefixes, printFilesAlreadyInDirectory} = storage.get(`settings`);
-    if(!directory) {
-        Flash.add(Flash.ERROR, `Vous n'avez pas paramétré de dossier pour l'impression.`);
-    } else if(!prefixes || prefixes.length === 0) {
-        Flash.add(Flash.ERROR, `Vous n'avez pas paramétré de préfixes.`);
+    if(!storage.readyToPrint) {
+        Flash.add(Flash.ERROR, `Les paramètres du dossier d'impression et des préfixes sont requis pour lancer le processus.`);
     } else {
+        const {directory, printFilesAlreadyInDirectory} = storage.get(`settings`);
         $button
             .addClass(`enabled`)
             .text(DISABLED_PRINTING_TEXT_BUTTON)
