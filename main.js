@@ -2,17 +2,23 @@ const {app, BrowserWindow} = require(`electron`);
 const remoteMain = require(`@electron/remote/main`);
 const path = require('node:path');
 const Store = require(`electron-store`);
+const packageJson = require('./package.json');
 
 remoteMain.initialize();
 
 function createWindow() {
+    const background = app.commandLine.hasSwitch('background');
 
     global.arguments = {
-        toto: app.commandLine.hasSwitch('toto')
+        background,
     };
+
+    const titleSuffix = background ? ' - Service' : ''
+
     const mainWindow = new BrowserWindow({
         width: 960,
         height: 540,
+        show: !background,
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
@@ -22,7 +28,7 @@ function createWindow() {
         },
         autoHideMenuBar: true,
         icon: `wiilog.ico`,
-        title: `Wiispool - v${app.getVersion()} [Wiilog - Sous licence]`,
+        title: `Wiispool - v${packageJson.version}${titleSuffix}`,
     });
 
     remoteMain.enable(mainWindow.webContents);

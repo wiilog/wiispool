@@ -15,15 +15,15 @@ class Storage {
 
     static electronStore;
 
-    static init() {
+    static init(mode = 'foreground') {
         if (!Storage.electronStore) {
             Storage.electronStore = new ElectronStore();
 
-            if(!Storage.electronStore.has(`settings`)) {
+            if(!Storage.has(`settings`)) {
                 Storage.set(`settings`, defaultSettings);
             }
 
-            if(!Storage.electronStore.has(`printHistory`)) {
+            if(!Storage.has(`printHistory`)) {
                 Storage.set(`printHistory`, defaultPrintHistory);
             }
         }
@@ -50,6 +50,16 @@ class Storage {
      */
     static has(key) {
         return Storage.electronStore.has(key);
+    }
+
+    static get readyToPrint() {
+        const settings = Storage.get(`settings`)
+        return (
+            !settings
+            || !settings.directory
+            || !settings.prefixes
+            || settings.prefixes.length === 0
+        )
     }
 }
 
