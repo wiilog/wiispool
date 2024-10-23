@@ -11,3 +11,5 @@ window.fs = fs;
 window.pdfToPrinter = pdfToPrinter;
 window.chokidar = chokidar;
 window.remote = remote;
+
+window.arguments = remote.getGlobal('arguments');

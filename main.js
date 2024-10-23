@@ -6,6 +6,10 @@ const Store = require(`electron-store`);
 remoteMain.initialize();
 
 function createWindow() {
+
+    global.arguments = {
+        toto: app.commandLine.hasSwitch('toto')
+    };
     const mainWindow = new BrowserWindow({
         width: 960,
         height: 540,

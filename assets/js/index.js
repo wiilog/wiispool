@@ -9,6 +9,8 @@ const DISABLED_TEXT = `Wiispool n'est actuellement pas lancé`;
 $(function () {
     const $enablePrinting = $(`.enable-printing`);
 
+    $('#exeparam').html(JSON.stringify(global.arguments))
+
     const {autoLaunch} = storage.get(`settings`);
     if (autoLaunch) {
         enablePrinting($enablePrinting);
