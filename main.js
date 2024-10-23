@@ -23,7 +23,7 @@ function createWindow() {
 
     remoteMain.enable(mainWindow.webContents);
 
-    mainWindow.loadFile(`templates/home.html`).then(() => {
+    mainWindow.loadFile(`templates/index.html`).then(() => {
         if (isDevEnvironment()) {
             mainWindow.webContents.openDevTools();
         }

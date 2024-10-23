@@ -6,9 +6,9 @@
   "author": "Wiilog",
   "description": "Wiispool - An automatic PDF file printing application.",
   "scripts": {
-    "start": "yarn sass:compile && yarn electron ./main.js --dev",
+    "start": "npm run sass:compile && electron ./main.js --dev",
     "sass:compile": "node-sass assets/scss/app.scss -o public/css",
-    "build": "yarn sass:compile && electron-builder"
+    "build": "npm run sass:compile && electron-builder"
   },
   "dependencies": {
     "@electron/remote": "^2.1.2",
