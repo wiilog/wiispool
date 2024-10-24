@@ -196,7 +196,7 @@ function onSaveSettings(modal) {
     }
 }
 
-async function getChoosenDirectory() {
+async function getChosenDirectory() {
     const showDialog = await remote.dialog.showOpenDialog({
         properties: [`openDirectory`],
     });
@@ -221,10 +221,11 @@ async function onOpenSettings(modal) {
     });
 
     $modal.find(`.choose-directory`).on(`click`, async function () {
-        await getChoosenDirectory().then((path) => {
+        const path = await getChosenDirectory();
+        if (path) {
             const cleanedPath = path.replace(`//`, `/`);
             $modal.find(`[name=directory]`).val(cleanedPath);
-        });
+        }
     });
 
     $modal.on(`keydown`, `[name=prefix]`, function (event) {
