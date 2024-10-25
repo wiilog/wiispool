@@ -8,3 +8,16 @@
 2. Soumettre la vérification sur le site : https://www.microsoft.com/en-us/wdsi/filesubmission et remplir les différents champs. Il faudra attendre que toutes les vérifications soient faites ce qui peut prendre jusqu'à trois jours.
 
 3. Mettre en place la nouvelle release avec Wiispool.exe en fichier joint.
+
+
+# Signature
+1. Générer un certificat auto-signé
+```shell
+New-SelfSignedCertificate -Type Custom -Subject "CN=Wiilog, O=Wiilog, C=FR" -KeyUsage DigitalSignature -FriendlyName "Application founise par Wiilog" -CertStoreLocation "Cert:\CurrentUser\My"
+Export-PfxCertificate -cert Cert:\CurrentUser\My\<Certificate Thumbprint> -FilePath <FilePath>.pfx -Password (ConvertTo-SecureString -String "<Password>" -Force -AsPlainText)
+```
+
+2. Signer le fichier exe
+```shell
+signtool sign /tr http://timestamp.digicert.com /td sha256 /fd sha256 /f "c:\path\to\mycert.pfx" /p pfxpassword "c:\path\to\file.exe"
+```

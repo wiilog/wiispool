@@ -28,8 +28,8 @@
 
   !define MUI_ICON "wiilog.ico"
   !define MUI_HEADERIMAGE
-  ;!define MUI_WELCOMEFINISHPAGE_BITMAP "assets\welcome.bmp"
-  ;!define MUI_HEADERIMAGE_BITMAP "assets\head.bmp"
+  ;!define MUI_WELCOMEFINISHPAGE_BITMAP ".\welcome.bmp"
+  ;!define MUI_HEADERIMAGE_BITMAP ".\head.bmp"
   !define MUI_ABORTWARNING
   !define MUI_WELCOMEPAGE_TITLE "${SLUG} Setup"
 
@@ -68,7 +68,7 @@
 
     ;create shortcuts
     CreateShortCut "$INSTDIR\${NAME}.lnk" "$INSTDIR\wiispool.exe"
-    CreateShortCut "$INSTDIR\${NAME}_background.lnk" "$INSTDIR\wiispool.exe" "--toto"
+    CreateShortCut "$INSTDIR\${NAME}_background.lnk" "$INSTDIR\wiispool.exe" "--background"
 
     ;add to start menu
     CreateShortCut "$STARTMENU\${NAME}_background.lnk" "$INSTDIR\${NAME}_background.lnk"
@@ -76,7 +76,6 @@
     CreateShortCut "$SMPROGRAMS\${NAME}_background.lnk" "$INSTDIR\${NAME}_background.lnk"
     CreateShortCut "$DESKTOP\${NAME}_background.lnk" "$INSTDIR\${NAME}_background.lnk"
     CreateShortCut "$STARTMENU\${NAME}.lnk" "$INSTDIR\${NAME}.lnk"
-    CreateShortCut "$SMSTARTUP\${NAME}.lnk" "$INSTDIR\${NAME}.lnk"
     CreateShortCut "$SMPROGRAMS\${NAME}.lnk" "$INSTDIR\${NAME}.lnk"
     CreateShortCut "$DESKTOP\${NAME}.lnk" "$INSTDIR\${NAME}.lnk"
 
@@ -113,3 +112,6 @@
 
     DeleteRegKey HKCU "Software\${NAME}"
   SectionEnd
+
+
+
