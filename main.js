@@ -3,14 +3,19 @@ const remoteMain = require(`@electron/remote/main`);
 const path = require('node:path');
 const Store = require(`electron-store`);
 const packageJson = require('./package.json');
+const {Storage} = require('./assets/js/utils/storage');
 
 remoteMain.initialize();
 
 function createWindow() {
-    const background = app.commandLine.hasSwitch('background');
+    Store.initRenderer();
+    Storage.init();
 
+    const background = isBackgroundMode();
+    const readyToPrint = Storage.readyToPrint;
     global.arguments = {
         background,
+        readyToPrint,
     };
 
     const titleSuffix = background ? ' - Service' : ''
@@ -18,7 +23,7 @@ function createWindow() {
     const mainWindow = new BrowserWindow({
         width: 960,
         height: 540,
-        show: !background,
+        show: !background || !readyToPrint,
         webPreferences: {
             nodeIntegration: true,
             contextIsolation: false,
@@ -39,11 +44,13 @@ function createWindow() {
         }
     });
 
-    Store.initRenderer();
 }
 
 function isDevEnvironment() {
-    return process.argv[2] === `--dev`;
+    return app.commandLine.hasSwitch('dev');
+}
+function isBackgroundMode() {
+    return app.commandLine.hasSwitch('background');
 }
 
 app.whenReady().then(createWindow);

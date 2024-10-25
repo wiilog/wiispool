@@ -7,6 +7,7 @@
   "description": "Wiispool - An automatic PDF file printing application.",
   "scripts": {
     "start": "npm run sass:compile && electron ./main.js --dev",
+    "start:background": "npm run start --- --background",
     "sass:compile": "node-sass assets/scss/app.scss -o public/css",
     "build": "npm run sass:compile && electron-builder"
   },

@@ -15,7 +15,7 @@ class Storage {
 
     static electronStore;
 
-    static init(mode = 'foreground') {
+    static init() {
         if (!Storage.electronStore) {
             Storage.electronStore = new ElectronStore();
 
@@ -54,12 +54,12 @@ class Storage {
 
     static get readyToPrint() {
         const settings = Storage.get(`settings`)
-        return (
-            !settings
-            || !settings.directory
-            || !settings.prefixes
-            || settings.prefixes.length === 0
-        )
+        return Boolean(
+            settings
+            && settings.directory
+            && settings.prefixes
+            && settings.prefixes.length > 0
+        );
     }
 }
 
