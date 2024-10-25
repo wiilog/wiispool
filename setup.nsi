@@ -50,6 +50,13 @@
 ; Section - Install App
 
   Section "-hidden app"
+
+    ; kill the app if it's running
+    SetErrorLevel 0
+    nsExec::ExecToLog 'taskkill /F /IM wiispool.exe'
+    Pop $0
+    StrCmp $0 0 +3
+
     SectionIn RO
     SetOutPath "$INSTDIR"
     File "dist\wiispool.exe"
@@ -93,6 +100,13 @@
   UninstPage instfiles
 
   Section "Uninstall"
+
+    ; kill the app if it's running
+    SetErrorLevel 0
+    nsExec::ExecToLog 'taskkill /F /IM wiispool.exe'
+    Pop $0
+    StrCmp $0 0 +3
+
     SetShellVarContext all
     Delete "$INSTDIR\*"
     Delete "$INSTDIR\Uninstall.exe"
