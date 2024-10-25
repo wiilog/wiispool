@@ -7,45 +7,12 @@ const ENABLED_TEXT = `Wiispool écoute le dossier paramétré pour l'impression`
 const DISABLED_TEXT = `Wiispool n'est actuellement pas lancé`;
 
 $(function () {
-    const $enablePrinting = $(`.enable-printing`);
-
-    const {autoLaunch} = storage.get(`settings`);
-    if (autoLaunch) {
-        enablePrinting($enablePrinting);
+    if (wiispoolArgs.background && !wiispoolArgs.readToPrint) {
+        mainBackgroundError();
     }
-
-    $(`.manage-settings`).on(`click`, function () {
-        const modal = new Modal({
-            template: `templates/modal-settings.html`,
-            onOpen: function () {
-                onOpenSettings(this);
-            },
-            onSave: function () {
-                onSaveSettings(this);
-            },
-        });
-        modal.open();     
-    });
-
-    $(`.print-history`).on(`click`, () => {
-        const modal = new Modal({
-            template: `templates/modal-print-history.html`,
-            onOpen: function () {
-                onOpenPrintHistory(this);
-            },
-        });
-        modal.open();
-    });
-
-    $enablePrinting.on(`click`, function () {
-        const $button = $(this);
-
-        if ($button.hasClass(`enabled`)) {
-            disablePrinting($button);
-        } else {
-            enablePrinting($button);
-        }
-    });
+    else {
+        mainForeground();
+    }
 });
 
 function addPrefix($modal, printers, name = undefined, printer = undefined) {
@@ -73,30 +40,38 @@ function addPrefix($modal, printers, name = undefined, printer = undefined) {
     $modal.find(`.prefixes-container`).append($element[0].outerHTML);
 }
 
-function enablePrinting($button) {
-    if(!storage.readyToPrint) {
-        Flash.add(Flash.ERROR, `Les paramètres du dossier d'impression et des préfixes sont requis pour lancer le processus.`);
-    } else {
-        const {directory, printFilesAlreadyInDirectory} = storage.get(`settings`);
-        $button
-            .addClass(`enabled`)
-            .text(DISABLED_PRINTING_TEXT_BUTTON)
-            .siblings(`span`)
-            .text(ENABLED_TEXT);
+function togglePrinting($button, enable = null, force = false) {
+    const printingIsEnabled = $button.hasClass('enabled');
+    const printingWillBeEnabled = typeof enable === 'boolean'
+        ? enable
+        : !printingIsEnabled;
 
+    const buttonStateChanges = force || (printingIsEnabled !== printingWillBeEnabled);
+    if (!buttonStateChanges) {
+        return;
+    }
+
+    if(printingWillBeEnabled && !storage.readyToPrint) {
+        Flash.add(Flash.ERROR, `Les paramètres du dossier d'impression et des préfixes sont requis pour lancer le processus.`);
+        return;
+    }
+
+    const buttonLabel = printingWillBeEnabled ? DISABLED_PRINTING_TEXT_BUTTON : ENABLE_PRINTING_TEXT_BUTTON;
+    const info = printingWillBeEnabled ? DISABLED_TEXT : ENABLED_TEXT;
+    const $info = $button.siblings('.info');
+
+    $button
+        .toggleClass('enabled', printingWillBeEnabled)
+        .text(buttonLabel);
+    $info.text(info)
+
+    const {directory, printFilesAlreadyInDirectory} = storage.get(`settings`);
+    if (printingWillBeEnabled) {
         Printing.start(directory, printFilesAlreadyInDirectory);
     }
-}
-
-function disablePrinting($button) {
-    $button
-        .removeClass(`enabled`)
-        .text(ENABLE_PRINTING_TEXT_BUTTON)
-        .siblings(`span`)
-        .text(DISABLED_TEXT);
-
-    const {directory} = storage.get(`settings`);
-    Printing.stop(directory);
+    else {
+        Printing.stop(directory);
+    }
 }
 
 function initSettingsValues($modal, printers) {
@@ -188,7 +163,7 @@ function onSaveSettings(modal) {
             orientation,
         };
 
-        disablePrinting($(`.enable-printing`));
+        togglePrinting($(`.enable-printing`), false);
         storage.set(`settings`, values);
 
         modal.close();
@@ -245,4 +220,49 @@ function onOpenPrintHistory(modal) {
     });
 
     getPrintHistory(modal.$modal);
+}
+
+function mainForeground() {
+    $('.foreground-view').removeClass('d-none');
+    $('.background-view').addClass('d-none');
+
+
+    const $enablePrinting = $(`.enable-printing`);
+
+    const {autoLaunch} = storage.get(`settings`);
+    togglePrinting($enablePrinting, autoLaunch, true);
+
+    $(`.manage-settings`).on(`click`, function () {
+        const modal = new Modal({
+            template: `templates/modal-settings.html`,
+            onOpen: function () {
+                onOpenSettings(this);
+            },
+            onSave: function () {
+                onSaveSettings(this);
+            },
+        });
+        modal.open();
+    });
+
+    $(`.print-history`).on(`click`, () => {
+        const modal = new Modal({
+            template: `templates/modal-print-history.html`,
+            onOpen: function () {
+                onOpenPrintHistory(this);
+            },
+        });
+        modal.open();
+    });
+
+    $enablePrinting.on(`click`, function () {
+        togglePrinting($(this));
+    });
+}
+
+function mainBackgroundError() {
+    const $backgroundView = $('.background-view');
+    $('.foreground-view').addClass('d-none');
+    $backgroundView.removeClass('d-none');
+    throw new Error("no settings");
 }

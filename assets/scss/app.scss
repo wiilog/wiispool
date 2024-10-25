@@ -132,6 +132,14 @@
     }
 }
 
+.background-view {
+    .error-icon {
+        background: url("../../assets/icons/circle-exclamation.svg") no-repeat center;
+        width: 50px;
+        height: 50px;
+    }
+}
+
 /* if backdrop support: very transparent and blurred */
 @supports ((-webkit-backdrop-filter: blur(2px)) or (backdrop-filter: blur(2px))) {
     .wii-loading .spinner-border-wrapper {

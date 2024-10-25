@@ -6,15 +6,25 @@
 </head>
 <body>
 <div class="home">
-    <div class="d-flex flex-column align-items-center">
-        <button class="enable-printing">Démarrer</button>
-        <span>Wiispool n'est actuellement pas lancé</span>
+    <div class="foreground-view">
+        <div class="d-flex flex-column align-items-center">
+            <button class="enable-printing"></button>
+            <span class="info text-center"></span>
+        </div>
+        <div class="manage-settings">
+            <img src="assets/icons/settings.svg">
+        </div>
+        <div class="print-history">
+            <img src="assets/icons/printer-history.svg">
+        </div>
     </div>
-    <div class="manage-settings">
-        <img src="assets/icons/settings.svg">
-    </div>
-    <div class="print-history">
-        <img src="assets/icons/printer-history.svg">
+    <div class="background-view d-none">
+        <div class="d-flex justify-content-center align-items-center flex-column">
+            <div class="error-icon"></div>
+            <div class="text-center text-danger">
+                <div>Vous devez paramétrer Wiispool avant de le démarrer.</div>
+            </div>
+        </div>
     </div>
 
     <div class="alerts-container"></div>
