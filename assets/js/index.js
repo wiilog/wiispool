@@ -1,10 +1,10 @@
 const NOT_ALLOWED_KEYS = [`_`];
 const PRINTER_HISTORY_OFFSET = 20;
 
-const ENABLE_PRINTING_TEXT_BUTTON = `Démarrer`;
-const DISABLED_PRINTING_TEXT_BUTTON = `Arrêter`;
-const ENABLED_TEXT = `Wiispool écoute le dossier paramétré pour l'impression`;
-const DISABLED_TEXT = `Wiispool n'est actuellement pas lancé`;
+const BUTTON_LABEL_PRINTING_OFF = `Démarrer`;
+const BUTTON_LABEL_PRINTING_ON = `Arrêter`;
+const INFO_PRINTING_OFF = `Wiispool n'est actuellement pas lancé`;
+const INFO_PRINTING_ON = `Wiispool écoute le dossier paramétré pour l'impression`;
 
 $(function () {
     if (wiispoolArgs.background && !wiispoolArgs.readToPrint) {
@@ -56,8 +56,8 @@ function togglePrinting($button, enable = null, force = false) {
         return;
     }
 
-    const buttonLabel = printingWillBeEnabled ? DISABLED_PRINTING_TEXT_BUTTON : ENABLE_PRINTING_TEXT_BUTTON;
-    const info = printingWillBeEnabled ? DISABLED_TEXT : ENABLED_TEXT;
+    const buttonLabel = printingWillBeEnabled ? BUTTON_LABEL_PRINTING_ON : BUTTON_LABEL_PRINTING_OFF;
+    const info = printingWillBeEnabled ? INFO_PRINTING_ON : INFO_PRINTING_OFF;
     const $info = $button.siblings('.info');
 
     $button
@@ -225,7 +225,6 @@ function onOpenPrintHistory(modal) {
 function mainForeground() {
     $('.foreground-view').removeClass('d-none');
     $('.background-view').addClass('d-none');
-
 
     const $enablePrinting = $(`.enable-printing`);
 
