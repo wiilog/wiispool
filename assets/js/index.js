@@ -7,7 +7,7 @@ const INFO_PRINTING_OFF = `Wiispool n'est actuellement pas lancé`;
 const INFO_PRINTING_ON = `Wiispool écoute le dossier paramétré pour l'impression`;
 
 $(function () {
-    if (wiispoolArgs.background && !wiispoolArgs.readToPrint) {
+    if (wiispoolArgs.background && !wiispoolArgs.readyToPrint) {
         mainBackgroundError();
     }
     else {
@@ -229,7 +229,7 @@ function mainForeground() {
     const $enablePrinting = $(`.enable-printing`);
 
     const {autoLaunch} = storage.get(`settings`);
-    togglePrinting($enablePrinting, autoLaunch, true);
+    togglePrinting($enablePrinting, autoLaunch || wiispoolArgs.background, true);
 
     $(`.manage-settings`).on(`click`, function () {
         const modal = new Modal({
