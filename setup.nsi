@@ -9,7 +9,7 @@
 ; Custom defines
   !define NAME "Wiispool"
   !define APPFILE "${NAME}_v${VERSION}_Setup.exe"
-  !define VERSION "1.0.0"
+  !define VERSION "3.0.2"
   !define SLUG "${NAME} v${VERSION}"
 
 
@@ -79,16 +79,15 @@
 
     ;add to start menu
     CreateShortCut "$STARTMENU\${NAME}_background.lnk" "$INSTDIR\${NAME}_background.lnk"
-    CreateShortCut "$SMSTARTUP\${NAME}_background.lnk" "$INSTDIR\${NAME}_background.lnk"
     CreateShortCut "$SMPROGRAMS\${NAME}_background.lnk" "$INSTDIR\${NAME}_background.lnk"
     CreateShortCut "$DESKTOP\${NAME}_background.lnk" "$INSTDIR\${NAME}_background.lnk"
+
     CreateShortCut "$STARTMENU\${NAME}.lnk" "$INSTDIR\${NAME}.lnk"
     CreateShortCut "$SMPROGRAMS\${NAME}.lnk" "$INSTDIR\${NAME}.lnk"
     CreateShortCut "$DESKTOP\${NAME}.lnk" "$INSTDIR\${NAME}.lnk"
 
     ;add uninstaller to start menu
     CreateShortCut "$SMPROGRAMS\Uninstall_${NAME}.lnk" "$INSTDIR\Uninstall.exe"
-    CreateShortCut "$SMSTARTUP\Uninstall_${NAME}.lnk" "$INSTDIR\Uninstall.exe"
     CreateShortCut "$STARTMENU\Uninstall_${NAME}.lnk" "$INSTDIR\Uninstall.exe"
 
   SectionEnd
