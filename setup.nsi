@@ -9,7 +9,7 @@
 ; Custom defines
   !define NAME "Wiispool"
   !define APPFILE "${NAME}_v${VERSION}_Setup.exe"
-  !define VERSION "3.0.2"
+  !define VERSION "3.1.0"
   !define SLUG "${NAME} v${VERSION}"
 
 
@@ -28,8 +28,8 @@
 
   !define MUI_ICON "wiilog.ico"
   !define MUI_HEADERIMAGE
-  ;!define MUI_WELCOMEFINISHPAGE_BITMAP ".\welcome.bmp"
-  ;!define MUI_HEADERIMAGE_BITMAP ".\head.bmp"
+  !define MUI_WELCOMEFINISHPAGE_BITMAP ".\welcome.bmp"
+  !define MUI_HEADERIMAGE_BITMAP ".\head.bmp"
   !define MUI_ABORTWARNING
   !define MUI_WELCOMEPAGE_TITLE "${SLUG} Setup"
 
