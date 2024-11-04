@@ -44,9 +44,9 @@ npm run set-version 3.1.1
 
 TODO WIIS-12007
 
-### 4. Upload Wiispool two exe files on release
-* The wiispool executable should be named: `wiispool.exe`
-* The installer executable should be named: `installer.exe`
+### 4. Upload Wiispool two executable files on release
+* `Wiispool_v[version].exe`
+* `Wiispool_v[version]_Setup.exe`
 
 ## [OLD - deprecated] Generate wiispool installer with self-signed certificate
 

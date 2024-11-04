@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const packageJsonContent = require('../package.json');
 
 
 const newVersion = process.argv && process.argv.length > 2 ? process.argv[2] : undefined;
@@ -23,8 +24,11 @@ fs.writeFileSync(nsisSetupScript, nsisNewContent);
 console.log('New version written in setup.nsi!');
 
 const packageJsonPath = path.join(__dirname, '..', 'package.json');
-const packageJsonContent = fs.readFileSync(packageJsonPath);
-const packageJsonNewContent = packageJsonContent.toString()
-    .replace(new RegExp(`"version": "${wiispoolVersionRegex}"`), `"version": "${newVersion}"`);
-fs.writeFileSync(packageJsonPath, packageJsonNewContent);
+
+packageJsonContent.version = newVersion;
+if (packageJsonContent.build?.portable) {
+    packageJsonContent.build.portable.artifactName = `Wiispool_v${newVersion}.exe`
+}
+
+fs.writeFileSync(packageJsonPath, JSON.stringify(packageJsonContent, null, 2) + "\n");
 console.log('New version written in package.json!');
