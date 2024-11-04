@@ -40,7 +40,11 @@ npm run set-version 3.1.1
 * Via windows file browser right-click on `/setup.nsi` file and click on `Compile NSIS Script` option
 * A new file setup will be generated in `dist/` directory: Wiispool_[version]_Setup.exe
 
-### 3. Upload Wiispool two exe files on release
+### 3. Sign app
+
+TODO WIIS-12007
+
+### 4. Upload Wiispool two exe files on release
 * The wiispool executable should be named: `wiispool.exe`
 * The installer executable should be named: `installer.exe`
 
