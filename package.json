@@ -9,7 +9,8 @@
     "start": "npm run sass:compile && electron ./main.js --dev",
     "start:background": "npm run start --- --background",
     "sass:compile": "node-sass assets/scss/app.scss -o public/css",
-    "build": "npm run sass:compile && electron-builder"
+    "build": "npm run sass:compile && electron-builder",
+    "set-version": "node scripts/set-version"
   },
   "dependencies": {
     "@electron/remote": "^2.1.2",

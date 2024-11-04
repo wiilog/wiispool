@@ -17,7 +17,7 @@
 ; General
 
   Name "${NAME}"
-  OutFile "${APPFILE}"
+  OutFile "dist\${APPFILE}"
   InstallDir "$PROGRAMFILES\${NAME}"
   InstallDirRegKey HKCU "Software\${NAME}" ""
   RequestExecutionLevel admin
