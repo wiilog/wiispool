@@ -1,6 +1,6 @@
 {
   "name": "wiispool",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "main": "main.js",
   "license": "MIT",
   "author": "Wiilog",
@@ -33,7 +33,7 @@
     },
     "portable": {
       "unicode": false,
-      "artifactName": "Wiispool_v3.1.0.exe"
+      "artifactName": "Wiispool_v3.1.1.exe"
     }
   }
 }
