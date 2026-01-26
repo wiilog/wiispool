@@ -9,7 +9,7 @@
 ; Custom defines
   !define NAME "Wiispool"
   !define APPFILE "${NAME}_v${VERSION}_Setup.exe"
-  !define VERSION "3.1.1"
+  !define VERSION "3.1.2"
   !define SLUG "${NAME} v${VERSION}"
 
 
